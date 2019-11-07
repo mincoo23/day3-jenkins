@@ -1,15 +1,15 @@
 pipeline {
-    agent any
-    
-    environment {
-        CI = 'true'
+  agent any
+  stages {
+    stage('Build') {
+      steps {
+        sh 'echo "muie jenkins"'
+        sh 'pwd'
+      }
     }
-    stages {
-        stage('Build') {
-            steps {
-                sh 'echo "muie jenkins"'
-                build job: 'day3-jenkins-2', wait: false
-            }
-        }
-    }
+
+  }
+  environment {
+    CI = 'true'
+  }
 }
