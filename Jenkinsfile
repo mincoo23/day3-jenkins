@@ -1,22 +1,30 @@
 pipeline {
-  agent any
-  stages {
-    stage('stage1') {
-      steps {
-        git(url: 'https://github.com/mincoo23/day3-jenkins.git', branch: 'master')
-        sh 'npm install'
-      }
+    agent {
+        docker {
+            image 'node:6-alpine'
+            args '-p 3000:3000'
+        }
     }
-
-    stage('build') {
-      steps {
-        sh 'npm run clean'
-        sh 'npm run build'
-      }
+    environment { 
+        CI = 'true'
     }
-
-  }
-  tools {
-    nodejs 'nodejs'
-  }
+    stages {
+        stage('Build') {
+            steps {
+                sh 'npm install'
+            }
+        }
+        stage('Test') {
+            steps {
+                sh './jenkins/scripts/test.sh'
+            }
+        }
+        stage('Deliver') { 
+            steps {
+                sh './jenkins/scripts/deliver.sh' 
+                input message: 'Finished using the web site? (Click "Proceed" to continue)' 
+                sh './jenkins/scripts/kill.sh' 
+            }
+        }
+    }
 }
