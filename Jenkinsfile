@@ -7,6 +7,12 @@ pipeline {
       }
     }
 
+    stage('stage2') {
+      steps {
+        build 'day3-job'
+      }
+    }
+
   }
   environment {
     name = 'day3-jenkins'
