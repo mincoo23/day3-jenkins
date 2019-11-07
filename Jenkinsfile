@@ -1,24 +1,23 @@
 pipeline {
-  agent {
-    docker {
-      args '-p 3000:3000'
-      image 'node:6-alpine'
+    agent {
+        docker {
+            image 'node:6-alpine'
+            args '-p 3000:3000'
+        }
     }
-
-  }
-  stages {
-    stage('stage1') {
-      steps {
-        git(url: 'https://github.com/mincoo23/day3-jenkins', branch: 'master', poll: true)
-        sh 'npm install'
-        sh '''npm run clean
-'''
-        sh 'npm run build'
-      }
+    environment {
+        CI = 'true' 
     }
-
-  }
-  environment {
-    name = 'day3-jenkins'
-  }
+    stages {
+        stage('Build') {
+            steps {
+                sh 'npm install'
+            }
+        }
+        stage('Test') { 
+            steps {
+                sh './jenkins/scripts/test.sh' 
+            }
+        }
+    }
 }
