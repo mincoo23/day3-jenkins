@@ -1,9 +1,12 @@
 pipeline {
   agent any
   stages {
-    stage('Example') {
+    stage('stage1') {
       steps {
-        sh 'npm config ls'
+        git(url: 'https://github.com/mincoo23/day3-jenkins.git', branch: 'master')
+        sh '''npm config ls
+npm run clean
+npm run build'''
       }
     }
 
