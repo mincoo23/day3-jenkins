@@ -4,9 +4,13 @@ pipeline {
     stage('stage1') {
       steps {
         git(url: 'https://github.com/mincoo23/day3-jenkins.git', branch: 'master')
-        sh '''npm config ls
-npm run clean
-npm run build'''
+        sh 'npm config ls'
+      }
+    }
+
+    stage('build') {
+      steps {
+        sh 'npm run build'
       }
     }
 
