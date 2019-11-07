@@ -4,12 +4,10 @@ pipeline {
     stage('stage1') {
       steps {
         git(url: 'https://github.com/mincoo23/day3-jenkins', branch: 'master', poll: true)
-      }
-    }
-
-    stage('stage2') {
-      steps {
-        build 'day3-job'
+        sh 'npm install'
+        sh '''npm run clean
+'''
+        sh 'npm run build'
       }
     }
 
